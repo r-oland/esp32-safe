@@ -1,4 +1,5 @@
 #include "buzzer.h"
+#include "util/global.h"
 #include <Arduino.h>
 
 const int buzzerPin = 5; // Pin D5 for the buzzer
@@ -12,7 +13,7 @@ unsigned long buzzerStartTime = 0; // Time when the buzzer was turned on
 const long beepDuration = 100;	   // Duration for the beep in milliseconds
 bool isBuzzerOn = false;		   // Flag to track if the buzzer is currently on
 
-void buzzIfTrue(bool &shouldBuzz) // Pass by reference using &
+void buzzerLoop() // Pass by reference using &
 {
 	unsigned long currentMillis = millis(); // Get current time
 

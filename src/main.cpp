@@ -18,5 +18,12 @@ void setup()
 void loop()
 {
   screenLoop(); // Display time on screen
-  servoLoop();  // Handle servo behavior
+  buzzerLoop(); // Handle buzzer behavior
+
+  bool buttonPressed = listenForButtonPress(); // Check for button press
+
+  if (buttonPressed)
+  {
+    toggleLock(); // Toggle the lock
+  }
 }

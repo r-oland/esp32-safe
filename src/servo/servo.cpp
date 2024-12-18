@@ -4,11 +4,10 @@
 #include <Arduino.h>
 #include <ESP32Servo.h>
 #include "buzzer/buzzer.h"
-#include "joystick/joystick.h"
+#include "util/global.h"
 
-Servo myservo;		// Declare the servo object
-int pos = 0;		// Variable to store the servo position
-bool closed = true; // Tracks direction of servo movement
+Servo myservo; // Declare the servo object
+int pos = 0;   // Variable to store the servo position
 
 // Define pins
 const int servoPin = 21; // Pin D21 for the servo
@@ -22,36 +21,27 @@ void servoSetup()
 	myservo.write(0);
 }
 
-bool shouldBuzz = false;
-
-void servoLoop()
+void toggleLock()
 {
-	buzzIfTrue(shouldBuzz); // bzz
+	shouldBuzz = true;
 
-	bool pressed = listenForButtonPress();
-
-	if (pressed)
+	if (lockClosed)
 	{
-		shouldBuzz = true;
-
-		if (closed)
+		// Move servo from 0 to 180 degrees
+		for (pos = 0; pos <= 180; pos += 5)
 		{
-			// Move servo from 0 to 180 degrees
-			for (pos = 0; pos <= 180; pos += 5)
-			{
-				myservo.write(pos);
-			}
+			myservo.write(pos);
 		}
-		else
-		{
-			// Move servo from 180 to 0 degrees
-			for (pos = 180; pos >= 0; pos -= 5)
-			{
-				myservo.write(pos);
-			}
-		}
-
-		// Toggle the direction for the next button press
-		closed = !closed;
 	}
+	else
+	{
+		// Move servo from 180 to 0 degrees
+		for (pos = 180; pos >= 0; pos -= 5)
+		{
+			myservo.write(pos);
+		}
+	}
+
+	// Toggle the direction for the next button press
+	lockClosed = !lockClosed;
 }

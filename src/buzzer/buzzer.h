@@ -13,6 +13,6 @@ extern bool isBuzzerOn;				  // Flag to track if the buzzer is currently on
 
 // Function prototypes
 void buzzerSetup();
-void buzzIfTrue(bool &shouldBuzz);
+void buzzerLoop();
 
 #endif // BUZZER_H
