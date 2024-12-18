@@ -10,13 +10,13 @@ void setup()
   Serial.begin(9600);
 
   buzzerSetup();   // Initialize the buzzer
-  joystickSetup(); // Initialize joystick (and buzzer)
+  joystickSetup(); // Initialize joystick
   screenSetup();   // Initialize screen
   servoSetup();    // Initialize servo
 }
 
 void loop()
 {
-  servoLoop();  // Handle joystick behavior (and buzzer)
   screenLoop(); // Display time on screen
+  servoLoop();  // Handle servo behavior
 }
