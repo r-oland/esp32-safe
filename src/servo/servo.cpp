@@ -7,7 +7,7 @@
 
 Servo myservo;				 // Declare the servo object
 int pos = 0;				 // Variable to store the servo position
-bool movingTo180 = true;	 // Tracks direction of servo movement
+bool closed = true;			 // Tracks direction of servo movement
 bool lastButtonState = HIGH; // Last state of the button
 
 // Define pins
@@ -40,35 +40,27 @@ void servoLoop()
 	{
 		shouldBuzz = true;
 
-		// if (movingTo180)
-		// {
-		// 	// Move servo from 0 to 180 degrees
-		// 	for (pos = 0; pos <= 180; pos += 5)
-		// 	{
-		// 		myservo.write(pos);
-		// 		delay(15); // Smooth movement
-		// 	}
-		// 	Serial.println("Moved to 180 degrees");
-		// }
-		// else
-		// {
-		// 	// Move servo from 180 to 0 degrees
-		// 	for (pos = 180; pos >= 0; pos -= 5)
-		// 	{
-		// 		myservo.write(pos);
-		// 		delay(15); // Smooth movement
-		// 	}
-		// 	Serial.println("Moved to 0 degrees");
-		// }
+		if (closed)
+		{
+			// Move servo from 0 to 180 degrees
+			for (pos = 0; pos <= 180; pos += 5)
+			{
+				myservo.write(pos);
+			}
+		}
+		else
+		{
+			// Move servo from 180 to 0 degrees
+			for (pos = 180; pos >= 0; pos -= 5)
+			{
+				myservo.write(pos);
+			}
+		}
 
-		// // Toggle the direction for the next button press
-		// movingTo180 = !movingTo180;
+		// Toggle the direction for the next button press
+		closed = !closed;
 	}
-
-	Serial.println(shouldBuzz);
 
 	// Store the button state for the next loop
 	lastButtonState = buttonState;
-
-	// delay(50); // Debounce delay
 }
