@@ -1,16 +1,22 @@
-// servo.h
-
 #ifndef SERVO_H
 #define SERVO_H
 
+#include <Arduino.h>
 #include <ESP32Servo.h>
 
-// Define joystick pins
-extern const int switchPin; // Pin D32 for the button
-extern const int servoPin;	// Pin D21 for the servo
+// Global Variables
+extern Servo myservo;		 // Servo object
+extern int pos;				 // Variable to store the servo position
+extern bool closed;			 // Tracks direction of servo movement
+extern bool lastButtonState; // Last state of the button
+extern bool shouldBuzz;		 // Flag to trigger the buzzer
 
-// Function declarations
+// Pin Definitions
+extern const int switchPin; // Pin for the button
+extern const int servoPin;	// Pin for the servo
+
+// Function Prototypes
 void servoSetup();
 void servoLoop();
 
-#endif
+#endif // SERVO_H
