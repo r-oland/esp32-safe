@@ -16,5 +16,6 @@ extern const long interval;				   // Interval at which to update (1 second)
 // Function prototypes
 void screenSetup();
 void screenLoop();
+void initiateCountdown(int seconds);
 
 #endif // SCREEN_H

@@ -19,7 +19,7 @@ unsigned long lastExecutionTime = 0; // Variable to track the last time the code
 
 void loop()
 {
-  screenLoop(); // Display time on screen
+  screenLoop(); // Handle screen behavior
   buzzerLoop(); // Handle buzzer behavior
 
   String direction = listenForJoystickPositionChange(); // Check for joystick position change
@@ -41,6 +41,7 @@ void loop()
 
   if (buttonPressed)
   {
-    toggleLock(); // Toggle the lock
+    initiateCountdown(60); // Display time on screen
+    toggleLock();          // Toggle the lock
   }
 }

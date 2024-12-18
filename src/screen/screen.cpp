@@ -1,4 +1,6 @@
 #include "screen/screen.h"
+#include "servo/servo.h"
+#include "util/global.h"
 #include <Arduino.h>
 #include <TM1637Display.h>
 
@@ -16,29 +18,46 @@ void screenSetup()
 	display.setBrightness(0x0f); // Set brightness to maximum
 }
 
+int timeInSeconds = 0;
+
 void screenLoop()
 {
-	static int totalSeconds = 3600; // 1 hour = 3600 seconds
-
-	// Calculate minutes and seconds
-	int minutes = totalSeconds / 60;
-	int seconds = totalSeconds % 60;
-
-	// Display time in MM:SS format
-	int timeToDisplay = minutes * 100 + seconds;			  // Combine MM and SS for display
-	display.showNumberDecEx(timeToDisplay, 0b01000000, true); // Display colon using 0b01000000
-
-	// Use millis() to update every second
-	unsigned long currentMillis = millis();
-	if (currentMillis - screenPreviousMillis >= interval)
+	if (displayMode == "IDLE")
 	{
-		screenPreviousMillis = currentMillis; // Save the last update time
-		totalSeconds--;						  // Decrease total time by 1 second
+		// idle = 00:00
+		display.showNumberDecEx(0, 0b01000000, true);
+	}
 
-		if (totalSeconds < 0)
+	if (displayMode == "COUNTDOWN")
+	{
+		static int totalSeconds = timeInSeconds; // 1 hour = 3600 seconds
+
+		// Calculate minutes and seconds
+		int minutes = totalSeconds / 60;
+		int seconds = totalSeconds % 60;
+
+		// Display time in MM:SS format
+		int timeToDisplay = minutes * 100 + seconds;			  // Combine MM and SS for display
+		display.showNumberDecEx(timeToDisplay, 0b01000000, true); // Display colon using 0b01000000
+
+		// Use millis() to update every second
+		unsigned long currentMillis = millis();
+		if (currentMillis - screenPreviousMillis >= interval)
 		{
-			// Reset the timer after it reaches 0
-			totalSeconds = 3600; // Reset to 1 hour
+			screenPreviousMillis = currentMillis; // Save the last update time
+			totalSeconds--;						  // Decrease total time by 1 second
+
+			if (totalSeconds == 0)
+			{
+				displayMode = "IDLE";
+				toggleLock(); // Toggle the lock
+			}
 		}
 	}
+}
+
+void initiateCountdown(int seconds)
+{
+	displayMode = "COUNTDOWN";
+	timeInSeconds = seconds;
 }
