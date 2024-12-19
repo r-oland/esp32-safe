@@ -2,12 +2,12 @@
 #include "joystick.h"
 #include <Arduino.h>
 
-const int buttonPin = 32; // Pin D32 for the button
-const int xPin = 34;	  // Joystick X-axis pin (left-right)
-const int yPin = 35;	  // Joystick Y-axis pin (top-bottom)
+static const int buttonPin = 32; // Pin D32 for the button
+static const int xPin = 34;		 // Joystick X-axis pin (left-right)
+static const int yPin = 35;		 // Joystick Y-axis pin (top-bottom)
 
-int xNeutral;
-int yNeutral;
+static int xNeutral;
+static int yNeutral;
 
 void joystickSetup()
 {
@@ -19,8 +19,8 @@ void joystickSetup()
 	yNeutral = analogRead(yPin);
 }
 
-bool lastButtonState = HIGH; // Start with the button not pressed (HIGH for pull-up)
-bool buttonPressed = false;	 // Keeps track of the "pressed once" state
+static bool lastButtonState = HIGH; // Start with the button not pressed (HIGH for pull-up)
+static bool buttonPressed = false;	// Keeps track of the "pressed once" state
 
 bool listenForButtonPress()
 {
@@ -45,8 +45,8 @@ bool listenForButtonPress()
 	return false;						  // Button is not being pressed for the first time
 }
 
-bool joystickMoved = false; // Keeps track of whether the joystick has moved to an extreme position
-String lastDirection = "";	// Keeps track of the last detected direction
+static bool joystickMoved = false; // Keeps track of whether the joystick has moved to an extreme position
+static String lastDirection = "";  // Keeps track of the last detected direction
 
 String listenForJoystickPositionChange()
 {
@@ -78,14 +78,14 @@ String listenForJoystickPositionChange()
 	if (yValue < topThreshold && !joystickMoved)
 	{
 		joystickMoved = true;
-		lastDirection = "TOP";
-		return "TOP"; // Log the position once
+		lastDirection = "UP";
+		return "UP"; // Log the position once
 	}
 	if (yValue > bottomThreshold && !joystickMoved)
 	{
 		joystickMoved = true;
-		lastDirection = "BOTTOM";
-		return "BOTTOM"; // Log the position once
+		lastDirection = "DOWN";
+		return "DOWN"; // Log the position once
 	}
 
 	// Reset the joystick moved flag when the joystick is no longer in an extreme position

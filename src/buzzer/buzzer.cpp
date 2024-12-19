@@ -2,16 +2,16 @@
 #include "util/global.h"
 #include <Arduino.h>
 
-const int buzzerPin = 5; // Pin D5 for the buzzer
+static const int buzzerPin = 5; // Pin D5 for the buzzer
 
 void buzzerSetup()
 {
 	pinMode(buzzerPin, OUTPUT); // Configure buzzer pin as output
 }
 
-unsigned long buzzerStartTime = 0; // Time when the buzzer was turned on
-const long beepDuration = 100;	   // Duration for the beep in milliseconds
-bool isBuzzerOn = false;		   // Flag to track if the buzzer is currently on
+static unsigned long buzzerStartTime = 0; // Time when the buzzer was turned on
+static const long beepDuration = 100;	  // Duration for the beep in milliseconds
+static bool isBuzzerOn = false;			  // Flag to track if the buzzer is currently on
 
 void buzzerLoop() // Pass by reference using &
 {

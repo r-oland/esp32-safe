@@ -6,11 +6,11 @@
 #include "buzzer/buzzer.h"
 #include "util/global.h"
 
-Servo myservo; // Declare the servo object
-int pos = 0;   // Variable to store the servo position
+Servo myservo;		// Declare the servo object
+static int pos = 0; // Variable to store the servo position
 
 // Define pins
-const int servoPin = 21; // Pin D21 for the servo
+static const int servoPin = 21; // Pin D21 for the servo
 
 void servoSetup()
 {

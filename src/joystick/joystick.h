@@ -4,15 +4,6 @@
 
 #include <Arduino.h>
 
-// Pin assignments
-extern const int buttonPin; // Button pin (D32)
-extern const int xPin;		// Joystick X-axis pin (left-right)
-extern const int yPin;		// Joystick Y-axis pin (top-bottom)
-
-// Neutral positions for joystick
-extern int xNeutral;
-extern int yNeutral;
-
 // Function declarations
 void joystickSetup();
 bool listenForButtonPress();

@@ -1,21 +1,16 @@
-#ifndef SCREEN_H
-#define SCREEN_H
+#ifndef SCREEN_SETUP_H
+#define SCREEN_SETUP_H
 
-#include <Arduino.h>
 #include <TM1637Display.h>
 
 // Module connection pins (Digital Pins)
 #define CLK 19
 #define DIO 18
 
-// Global variables and constants
-extern TM1637Display display;			   // Display object
-extern unsigned long screenPreviousMillis; // Store the last time update was done
-extern const long interval;				   // Interval at which to update (1 second)
+extern TM1637Display display; // Declare the display object
 
-// Function prototypes
+// Function declarations
 void screenSetup();
-void screenLoop();
 void initiateCountdown(int seconds);
 
-#endif // SCREEN_H
+#endif // SCREEN_SETUP_H
