@@ -19,6 +19,23 @@ void screenSetup()
 
 void initiateCountdown(int seconds)
 {
-	displayMode = "COUNTDOWN";
+	mode = "COUNTDOWN";
 	countdownTime = seconds;
+}
+
+void displayOpenMessage()
+{
+	Serial.println("OPEN");
+	display.clear();
+
+	// Custom segment definitions for "OPEN"
+	uint8_t openMessage[] = {
+		0x3F, // O
+		0x73, // P
+		0x79, // E
+		0x37  // N
+	};
+
+	// Display "OPEN"
+	display.setSegments(openMessage);
 }

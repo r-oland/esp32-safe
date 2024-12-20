@@ -1,4 +1,5 @@
 #include "screen/screen.h"
+#include "servo/servo.h"
 #include "joystick/joystick.h"
 #include "screen/countdown/countdown.h"
 #include "screen/setScreenTime/setScreenTime.h"
@@ -10,28 +11,41 @@ void controleLoop()
 {
 	String direction = listenForJoystickPositionChange(); // Check for joystick position change
 
-	if (displayMode == "IDLE" && direction != "")
+	if (mode == "IDLE" && direction != "")
 	{
-		displayMode = "SET_TIME";
+		mode = "SET_TIME";
 	}
 
 	//
 	// STATES
 	//
 
-	if (displayMode == "IDLE")
+	if (mode == "IDLE")
 	{
 		// idle = 00:00
 		display.showNumberDecEx(0, 0b01000000, true);
 	}
 
-	if (displayMode == "COUNTDOWN")
+	if (mode == "COUNTDOWN")
 	{
 		countdown();
+		if (direction != "")
+			listenForPasscode(direction);
 	}
 
-	if (displayMode == "SET_TIME")
+	if (mode == "SET_TIME")
 	{
 		setScreenTime(direction);
+	}
+
+	if (mode == "UNLOCKED")
+	{
+		Serial.println("UNLOCKED");
+		displayOpenMessage();
+		toggleLock(); // Toggle the lock
+
+		delay(2000);
+
+		mode = "IDLE";
 	}
 }

@@ -42,8 +42,7 @@ void countdown()
 		// Handle countdown completion
 		if (countdownTime == 0)
 		{
-			displayMode = "IDLE";
-			toggleLock(); // Toggle the lock
+			mode = "UNLOCKED";
 		}
 	}
 }

@@ -1,6 +1,8 @@
 // joystick.cpp
 #include "joystick.h"
 #include <Arduino.h>
+#include "util/global.h"
+#include "servo/servo.h"
 
 static const int buttonPin = 32; // Pin D32 for the button
 static const int xPin = 34;		 // Joystick X-axis pin (left-right)
@@ -96,4 +98,36 @@ String listenForJoystickPositionChange()
 	}
 
 	return lastDirection; // Return the last direction if no new extreme position is detected
+}
+
+// Static variables to keep track of state
+static unsigned long lastDirectionTime = 0;						// Time of the last input
+static int currentStep = 0;										// Current step in the passcode sequence
+static const String passcode[] = {"UP", "LEFT", "UP", "RIGHT"}; // Passcode sequence
+
+void listenForPasscode(String direction)
+{
+	// Debounce inputs (check every 200 ms)
+	unsigned long currentTime = millis();
+	if (currentTime - lastDirectionTime < 300)
+	{
+		return;
+	}
+	lastDirectionTime = currentTime;
+
+	// Check if the input matches the current step in the passcode
+	if (direction == passcode[currentStep])
+	{
+		currentStep++; // Move to the next step
+	}
+	else
+	{
+		currentStep = 0; // Reset if the input doesn't match
+	}
+
+	// If the passcode is complete, unlock
+	if (currentStep == 4)
+	{
+		mode = "UNLOCKED";
+	}
 }

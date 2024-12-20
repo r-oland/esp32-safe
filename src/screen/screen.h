@@ -12,5 +12,6 @@ extern TM1637Display display; // Declare the display object
 // Function declarations
 void screenSetup();
 void initiateCountdown(int seconds);
+void displayOpenMessage();
 
 #endif // SCREEN_SETUP_H
