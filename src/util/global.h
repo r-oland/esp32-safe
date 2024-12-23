@@ -1,6 +1,7 @@
 #include <Arduino.h>
+#include <Preferences.h>
 
-extern bool lockClosed;	  // Tracks direction of servo movement
-extern bool shouldBuzz;	  // Flag to trigger the buzzer
-extern String mode;		  // Current display mode
-extern int countdownTime; // Variable to store the countdown time
+extern Preferences preferences; // Declare the preferences object
+extern bool shouldBuzz;			// Flag to trigger the buzzer
+extern String mode;				// Current display mode
+extern int countdownTime;		// Variable to store the countdown time

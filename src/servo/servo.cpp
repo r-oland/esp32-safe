@@ -3,12 +3,13 @@
 #include <ESP32Servo.h>
 #include "buzzer/buzzer.h"
 #include "util/global.h"
+#include "util/pref.h"
 
 Servo myservo; // Declare the servo object
 
 static const int open = 35;	  // Constant to represent the open position
 static const int locked = 62; // Constant to represent the locked position
-static const int detachTime = 500;
+static const int detachTime = 750;
 
 static int pos = open; // Variable to store the servo position
 
@@ -17,16 +18,21 @@ static const int servoPin = 21; // Pin D21 for the servo
 
 void servoSetup()
 {
+	bool lockOpen = getIsLockOpen();
+
 	// Attach the servo to the defined pin
 	myservo.attach(servoPin);
 
-	// Initialize the servo position to 0 degrees
-	myservo.write(open);
+	// Initialize the servo position
+	if (lockOpen)
+		myservo.write(open);
+	if (!lockOpen)
+		myservo.write(locked);
 
 	unsigned long startTime = millis(); // Record the current time
 	while (millis() - startTime < detachTime)
 	{
-		// Wait for 1000ms without blocking other operations
+		// Wait for detachTime without blocking other operations
 	}
 
 	myservo.detach(); // Turn off the servo to save power
@@ -34,36 +40,28 @@ void servoSetup()
 
 void toggleLock()
 {
-	shouldBuzz = true;
-
+	bool lockOpen = getIsLockOpen();
 	myservo.attach(servoPin); // Reattach servo before moving
 
-	if (lockClosed)
+	shouldBuzz = true;
+
+	if (!lockOpen)
 	{
-		// Move servo from open to locked position
-		for (pos = open; pos <= locked; pos += 5)
-		{
-			myservo.write(pos);
-		}
+		myservo.write(open);
 	}
 	else
 	{
-		// Move servo from locked to open position
-		for (pos = locked; pos >= open; pos -= 5)
-		{
-			myservo.write(pos);
-		}
+		myservo.write(locked);
 	}
 
-	// Record the start time for the 2000ms delay
-	unsigned long startTime = millis();
+	unsigned long startTime = millis(); // Record the start time
 	while (millis() - startTime < detachTime)
 	{
-		// Wait for 1000ms without blocking other operations
+		// Wait for detachTime without blocking other operations
 	}
 
 	myservo.detach(); // Turn off the servo to save power
 
 	// Toggle the direction for the next button press
-	lockClosed = !lockClosed;
+	toggleLockOpen(lockOpen);
 }
