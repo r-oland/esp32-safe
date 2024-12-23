@@ -42,7 +42,6 @@ void controleLoop()
 
 	if (mode == "UNLOCKED")
 	{
-		Serial.println("UNLOCKED");
 		displayOpenMessage();
 		toggleLock(); // Toggle the lock
 

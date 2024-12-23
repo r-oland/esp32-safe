@@ -25,7 +25,6 @@ void initiateCountdown(int seconds)
 
 void displayOpenMessage()
 {
-	Serial.println("OPEN");
 	display.clear();
 
 	// Custom segment definitions for "OPEN"

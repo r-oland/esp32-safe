@@ -115,7 +115,11 @@ void setScreenTime(String direction)
 	if (buttonPressed)
 	{
 		const int seconds = hours * 36000 + hour * 3600 + minutes * 600 + minute * 60;
-		initiateCountdown(seconds); // Display time on screen
-		toggleLock();				// Toggle the lock
+
+		if (seconds > 0)
+		{
+			initiateCountdown(seconds); // Display time on screen
+			toggleLock();				// Toggle the lock
+		}
 	}
 }
