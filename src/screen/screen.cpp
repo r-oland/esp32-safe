@@ -3,6 +3,7 @@
 #include "screen/countdown/countdown.h"
 #include "screen/setScreenTime/setScreenTime.h"
 #include "util/global.h"
+#include "util/pref.h"
 #include <Arduino.h>
 #include <TM1637Display.h>
 
@@ -21,6 +22,7 @@ void initiateCountdown(int seconds)
 {
 	mode = "COUNTDOWN";
 	countdownTime = seconds;
+	setCountdownPref(seconds);
 }
 
 void displayOpenMessage()

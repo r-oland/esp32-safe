@@ -5,6 +5,7 @@
 #include "screen/setScreenTime/setScreenTime.h"
 #include "screen/controleBrightness/controleBrightness.h"
 #include "util/global.h"
+#include "util/pref.h"
 #include <Arduino.h>
 #include <TM1637Display.h>
 
@@ -44,6 +45,7 @@ void controleLoop()
 	{
 		displayOpenMessage();
 		toggleLock(); // Toggle the lock
+		setCountdownPref(0);
 
 		delay(2000);
 
